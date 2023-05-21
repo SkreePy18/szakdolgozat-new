@@ -67,7 +67,7 @@
                             ?>
                             <br>
                             <b>Token:</b> <?php xecho($value['token']); ?><br>
-                            <b>QR code: </b><img height="32px" src='qrCodes/<?php xecho($value['token']); ?>.png'/><br>
+                            <b>QR code: </b><img height="32px" src='../qrCodes/<?php xecho($value['token']); ?>.png'/><br>
                             <b>Redeemed: </b> <?php xecho($value['redeemed']); ?><br>
                             <b>Expiration date: </b><?php xecho($value['expiration_date']); ?><br>
                               <a data-toggle="tooltip" title="Edit token" href="codeGenerationForm.php?edit_token=<?php xecho($value['id']); ?>" class="btn btn-sm btn-success">
@@ -98,7 +98,7 @@
 
                         <!-- Achievable points -->
                         <td class="hidden-xs hidden-sm">
-                          <center><img class='absoluteCenter' height="32px" src='qrCodes/<?php xecho($value['token']); ?>.png'/></center>
+                          <center><img class='absoluteCenter' height="32px" src='../qrCodes/<?php xecho($value['token']); ?>.png'/></center>
                         </td>
 
                         <!-- Expiration date -->
