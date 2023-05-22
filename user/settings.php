@@ -40,7 +40,7 @@
               <div class="form-group <?php xecho(isset($errors['profile_picture']) ? 'has-error' : '') ?>">
                 <label class="control-label">Profile picture</label><br>
 
-                <img class="profilePicture" src="uploads/<?php isset($user_data['profile_picture']) ? xecho($user_data['profile_picture']) : xecho("default-avatar.png"); ?>" width = "64" height="64">
+                <img class="profilePicture" src="uploads/<?php if (isset($user_data['profile_picture']) && $user_data['profile_picture'] !== "") { xecho($user_data['profile_picture']); } else {xecho("default-avatar.png");} ?>" width = "64" height="64">
 
                 <?php if ($isEditing === true): ?>
                     <br><br>

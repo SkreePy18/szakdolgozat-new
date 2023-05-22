@@ -44,11 +44,11 @@
                 <thead class="hidden-xs hidden-sm">
                   <tr>
                     <th width="2%">#</th>
-                    <th>Token created for</th>
-                    <th width="10%">Token</th>
+                    <th style="text-align: left">Token created for</th>
+                    <th style="text-align: left" width="10%">Token</th>
                     <th width="15%">QR Code</th>
-                    <th width="15%">Expiration date</th>
-                    <th width="15%">Redeemed</th>
+                    <th style="text-align: left" width="15%">Expiration date</th>
+                    <th style="text-align: left" width="15%">Redeemed</th>
                     <th colspan="3" class="text-center" width="23%">Actions</th>
                   </tr>
                 </thead>
@@ -73,7 +73,7 @@
                               <a data-toggle="tooltip" title="Edit token" href="codeGenerationForm.php?edit_token=<?php xecho($value['id']); ?>" class="btn btn-sm btn-success">
                                 <span class="glyphicon glyphicon-pencil"></span>
                               </a>
-                            <a data-toggle="tooltip" title="Download token" href="tokenList.php?opportunity_id=<?php xecho($value['opportunity_id']); ?>&save_token=<?php xecho($value['token']); ?>" class="btn btn-sm btn-info">
+                            <a data-toggle="tooltip" title="Download token" href="tokenList.php?opportunity=<?php xecho($value['opportunity_id']); ?>&save_token=<?php xecho($value['token']); ?>" class="btn btn-sm btn-info">
                               <span class="glyphicon glyphicon-save"></span>
                             </a>
                             <a href="<?php xecho(addQueryServer("delete_token", $value['token'])) ?>" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete token">
@@ -83,9 +83,14 @@
                             </span>
                           <span class='absoluteCenter hidden-xs hidden-sm'>
                             <?php 
+                              if ($value['user_id'] == 2) {
+                                xecho("Anyone");
+                              } else {
                                 $sql = "SELECT neptuncode FROM users WHERE id=? LIMIT 1";
                                 $aid = getSingleRecord($sql, 'i', [ $value['user_id'] ]);
                                 xecho($aid['neptuncode']);
+                              }
+                               
                             ?>
                           </span>
                         </td>
@@ -109,7 +114,14 @@
                         <!-- Redeemed -->
 
                         <td class="hidden-xs hidden-sm">
-                          <span class="absoluteCenter"><?php xecho($value['redeemed']); ?> </span>
+                          <span class="absoluteCenter"><?php xecho($value['redeemed']); ?></span>
+                          <?php 
+                           if ($value['user_id'] == 2 && isset($value['redeemed_by'] )) {
+                            $sql = "SELECT neptuncode FROM users WHERE id=? LIMIT 1";
+                            $aid = getSingleRecord($sql, 'i', [$value['redeemed_by'] ]);
+                            xecho("(" . $aid['neptuncode'] . ")");
+                           }
+                          ?>
                         </td>
 
                         <!-- Action buttons -->
@@ -132,7 +144,7 @@
                         </td>
 
                         <td class="text-center hidden-xs hidden-sm">
-                            <a data-toggle="tooltip" title="Download token" href="tokenList.php?opportunity_id=<?php xecho($value['opportunity_id']); ?>&save_token=<?php xecho($value['token']); ?>" class="btn btn-sm btn-info">
+                            <a data-toggle="tooltip" title="Download token" href="tokenList.php?opportunity=<?php xecho($value['opportunity_id']); ?>&save_token=<?php xecho($value['token']); ?>" class="btn btn-sm btn-info">
                               <span class="glyphicon glyphicon-save"></span>
                             </a>
                         </td>

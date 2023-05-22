@@ -108,22 +108,40 @@ function validateUser($user, $ignoreFields)
         $sql = 'SELECT * FROM users WHERE username=? OR fullname=? OR neptuncode=? OR email=? LIMIT 1';
         $oldUser = getSingleRecord($sql, 'ssss', [$user['username'], $user['fullname'], $user['neptuncode'], $user['email']]);
 
-        if (!empty($oldUser['username']) && $oldUser['username'] === $user['username'] && $oldUser['id'] !== $_SESSION['user']['id'])
-        { // if user exists
-            $errors['username'] = 'Username already exists';
+        if (isset($_SESSION['user']['id']) && $oldUser['id'] !== $_SESSION['user']['id'])
+        {
+
+            if (!empty($oldUser['username']) && $oldUser['username'] === $user['username'])
+            { // if user exists
+                $errors['username'] = 'Username already exists fml';
+            }
+          
+            if (!empty($oldUser['neptuncode']) && $oldUser['neptuncode'] === $user['neptuncode'])
+            { // if user exists
+                $errors['neptuncode'] = 'Neptun code already exists';
+            }
+            if (!empty($oldUser['email']) && $oldUser['email'] === $user['email'])
+            { // if user exists
+                $errors['email'] = 'Email already exists';
+            }
+
+        } elseif (! isset($_SESSION['user']['id'])) {
+            if (!empty($oldUser['username']) && $oldUser['username'] === $user['username'])
+            { // if user exists
+                $errors['username'] = 'Username already exists';
+            }
+
+            if (!empty($oldUser['neptuncode']) && $oldUser['neptuncode'] === $user['neptuncode'])
+            { // if user exists
+                $errors['neptuncode'] = 'Neptun code already exists';
+            }
+            
+            if (!empty($oldUser['email']) && $oldUser['email'] === $user['email'])
+            { // if user exists
+                $errors['email'] = 'Email already exists';
+            }
         }
-        if (!empty($oldUser['fullname']) && $oldUser['fullname'] === $user['fullname'] && $oldUser['id'] !== $_SESSION['user']['id'])
-        { // if user exists
-            $errors['fullname'] = 'Fullname already exists';
-        }
-        if (!empty($oldUser['neptuncode']) && $oldUser['neptuncode'] === $user['neptuncode'] && $oldUser['id'] !== $_SESSION['user']['id'])
-        { // if user exists
-            $errors['neptuncode'] = 'Neptun code already exists';
-        }
-        if (!empty($oldUser['email']) && $oldUser['email'] === $user['email'] && $oldUser['id'] !== $_SESSION['user']['id'])
-        { // if user exists
-            $errors['email'] = 'Email already exists';
-        }
+        
     }
 
     // during update, user should not change its username, except admin can change the username of others

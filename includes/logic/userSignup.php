@@ -34,12 +34,18 @@ function loginById($user_id)
 // SIGN UP USER
 if (isset($_POST['signup_btn']))
 {
-    $user_data = filter_input_array(INPUT_POST, ["username" => FILTER_UNSAFE_RAW, "fullname" => FILTER_UNSAFE_RAW, "neptuncode" => FILTER_UNSAFE_RAW, "email" => FILTER_UNSAFE_RAW, "password" => FILTER_UNSAFE_RAW, "passwordConf" => FILTER_UNSAFE_RAW]);
+    $user_data = filter_input_array(INPUT_POST, [
+        "username" => FILTER_UNSAFE_RAW, 
+        "fullname" => FILTER_UNSAFE_RAW, 
+        "neptuncode" => FILTER_UNSAFE_RAW, 
+        "email" => FILTER_UNSAFE_RAW, 
+        "password" => FILTER_UNSAFE_RAW, 
+        "passwordConf" => FILTER_UNSAFE_RAW]);
     // receive all input values from the form. No need to escape... bind_param takes care of escaping
-    $username = $user_data['username'];
-    $fullname = $user_data['fullname'];
-    $neptuncode = $user_data['neptuncode'];
-    $email = $user_data['email'];
+    $username   = sanitize_string($user_data['username']);
+    $fullname   = sanitize_string($user_data['fullname']);
+    $neptuncode = sanitize_string($user_data['neptuncode']);
+    $email      = sanitize_string($user_data['email']);
 
     // validate form values
     $errors = validateUser($user_data, ['signup_btn']);
@@ -49,7 +55,7 @@ if (isset($_POST['signup_btn']))
     if (count($errors) === 0)
     {
         // insert user into database
-        $query = "INSERT INTO users SET role_id=2, pending_verification=1, username=?, fullname=?, neptuncode=?, email=?, password=?";
+        $query = "INSERT INTO users SET role_id=2, pending_verification=1, username=?, fullname=?, neptuncode=?, email=?, password=?, created_at=CURRENT_TIMESTAMP()";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('sssss', $username, $fullname, $neptuncode, $email, $password);
         $result = $stmt->execute();
@@ -65,12 +71,13 @@ if (isset($_POST['signup_btn']))
             $content = "
             Dear " . $fullname . "<br><br>
             
-            Please verify your account with the following link: <br>" . BASE_URL . "/accountVerification.php?token=" . $token . "
-            Best regards,<br>" . APP_NAME;
+            Please verify your account with the following link: <br>" . BASE_URL . "accountVerification.php?token=" . $token . "
+            <br><br>Best regards,<br>" . APP_NAME;
 
             sendEmail($email, "Account verification", $content);
             // loginById($user_id); // log user in
-            
+            $_SESSION['success_msg'] = "Account successfully registered! Please confirm your account via the link sent in Email";
+
         }
         else
         {
@@ -140,7 +147,7 @@ if (isset($_POST["request_reset"]))
 
         $content = "Dear <strong> " . $user['fullname'] . "</strong><br><br>
         You have requested a password reset. In order to change your password, please click on this link:<br><br>
-        http://localhost/szakdolgozat/passwordResetForm.php?password_token=" . $token . "<br><br>Best regards,<br>SkreePy<br><hr>";
+        " . BASE_URL . "/passwordResetForm.php?password_token=" . $token . "<br><br>Best regards,<br>SkreePy<br><hr>";
 
         sendEmail($user['email'], "Password reset", $content);
 

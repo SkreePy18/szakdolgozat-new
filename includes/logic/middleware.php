@@ -398,30 +398,23 @@ function canUserRedeemToken($user_id, $token)
     $sql = "SELECT * from tokens WHERE token=? AND (user_id = ? OR user_id = 2)";
     $tokenInsance = getSingleRecord($sql, 'si', [$token, $user_id]);
 
-    $sql = "SELECT * from tokens WHERE token = ?";
-    $tokenData = getSingleRecord($sql, 's', [$token]);
-
-    if (is_null($tokenData))
+    if (is_null($tokenInsance))
     {
         $_SESSION['error_msg'] = "This token doesn't exist for you!";
         return false;
     }
-    $token_user_id = $tokenData['user_id'];
+    $token_user_id = $tokenInsance['user_id'];
 
     if (is_null($tokenInsance))
     {
-        if ($token_user_id !== 2)
+        if ($token_user_id !== 2 && $token_user_id !== $user_id)
         {
             $_SESSION['error_msg'] = "This token doesn't exist for you!";
             return false;
         }
-        else
-        {
-            $tokenInsance = $tokenData;
-        }
     }
 
-    if ($tokenInsance["redeemed"] == "yes")
+    if ($tokenInsance["redeemed"] !== "no")
     {
         $_SESSION['error_msg'] = "This token was already redeemed!";
         return false;
@@ -487,14 +480,14 @@ function canDeleteTypeByID($semester_id = null)
 {
     global $conn;
 
-    if (in_array(['permission_name' => 'delete-semester'], $_SESSION['userPermissions']))
+    if (in_array(['permission_name' => 'delete-point-type'], $_SESSION['userPermissions']))
     {
         // check whether semester exists at all
         $sql = "SELECT id FROM opportunity_points_type WHERE id=?";
         $semester_result = getSingleRecord($sql, 'i', [$semester_id]);
         if (is_null($semester_result))
         {
-            $_SESSION['error_msg'] = "Semester does not exist to delete it";
+            $_SESSION['error_msg'] = "Point type does not exist";
             return false;
         }
 
@@ -502,7 +495,7 @@ function canDeleteTypeByID($semester_id = null)
     }
     else
     {
-        $_SESSION['error_msg'] = "No permissions to delete semester";
+        $_SESSION['error_msg'] = "No permissions to delete point type";
         return false;
     }
 }

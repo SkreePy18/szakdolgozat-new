@@ -13,7 +13,7 @@
     <!-- Custome styles -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <!-- Bootstrap tooltip -->
-    <script src="../assets/js/tooltip.js"></script>
+    <!-- <script src="../assets/js/tooltip.js"></script> -->
   </head>
   <body>
     <?php include_once(INCLUDE_PATH . "/layouts/navbar.php") ?>
@@ -79,20 +79,6 @@
 
             <h1 class="text-center"><?php xecho($title); ?></h1>
             <br />
-
-            <!-- A selector to filter the opportunities -->
-            <!-- <select name="filter_supervisor" id="filter_supervisor" > -->
-            <!-- <option value="all">All opportunities </option> -->
-            <?php
-              // $sql = "SELECT * FROM `users` INNER JOIN `opportunities` ON `users`.id = `opportunities`.owner_id WHERE `users`.role_id IN (1, 5, 4)";
-              // $instructors = getMultipleRecords($sql, "i");
-              // foreach ($instructors as $key => $instructor) {
-              //   $instructor_id = $instructor["id"];
-              //   $onclick_string = "window.location.href=opportunities/opportunityFilter.php?filter_supervisor=$instructor_id";
-              //   echo "<option value=" . "'" . $instructor["id"] . "' onchange=" . $onclick_string . ">" . $instructor["fullname"] . "</option>";
-              // }
-            ?>
-            <!-- </select> -->
 
             <?php if (! empty($opportunities)): ?>
               <table class="table table-striped table-hover">
@@ -269,12 +255,4 @@
         </div>
       </div>
     </div>
-  <?php //include_once(INCLUDE_PATH . "/layouts/footer.php") ?>
-
-<script>
-  
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-}); 
-
-</script>
+  <?php include_once(INCLUDE_PATH . "/layouts/footer.php") ?>

@@ -60,7 +60,7 @@ $excellence_list_id = $_GET['id'];
                 <tbody>
                   <?php foreach ($excellence_list as $key => $value): ?>
                       <tr>
-                        <td class="hidden-sm hidden-xs"><?php xecho($key + 1); ?></td>
+                        <td class="absoluteCenter"><?php xecho($key + 1); ?></td>
                         <?php $url = "topic/topicView.php?view_topic="; ?>
                         <td class="hidden-sm hidden-xs"><?php xecho($value['neptuncode']); ?> </td>
 						            <?php if(isset($showName) && $showName == "true"): ?>

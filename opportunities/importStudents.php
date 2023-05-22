@@ -27,7 +27,7 @@
         $fileParseResults = parseFile($file, $opportunity_id);
         if($fileParseResults[0] == true) {
             if($fileParseResults[1] != "") {
-                $_SESSION['success_msg'] = "You have successfully imported the list of students for this opportunity. Number: " . $fileParseResults[2];
+                $_SESSION['success_msg'] = "You have successfully imported the list of students for this opportunity. Number of students: " . $fileParseResults[2];
                 $_SESSION['error_msg'] = "The following students are not imported because of duplication: " . $fileParseResults[1];
             } else {
                 $_SESSION['success_msg'] = "You have successfully imported the list of students for this opportunity. Number: " . $fileParseResults[2];
@@ -83,8 +83,10 @@
                 if (!canImportPointsForOpportunityByID($opportunity_id, $index['id'])) {
                      if ($students == "") {
                          $students = $neptun_code;
-                     } 
-                     $students = $students . ", " . $neptun_code;
+                     } else {
+                        $students = $students . ", " . $neptun_code;
+                     }
+                     
                      
                      continue;
                  }

@@ -323,13 +323,13 @@ function redeemToken()
 
     if (!canUserRedeemToken($user_id, $token))
     {
-        $_SESSION['error_msg'] = "You cannot redeem this token!";
+        // $_SESSION['error_msg'] = "You cannot redeem this token!";
         header("location: " . BASE_URL . "tokens/redeemToken.php");
         exit(0);
     }
 
-    $sql = "UPDATE tokens SET redeemed = 'yes' WHERE token = ? AND user_id = ?";
-    $result = modifyRecord($sql, 'si', [$token, $user_id]);
+    $sql = "UPDATE tokens SET redeemed='yes', redeemed_by = ? WHERE token = ? AND ( user_id = ? OR user_id = 2 )";
+    $result = modifyRecord($sql, 'sii', [$user_id, $token, $user_id]);
 
     if ($result)
     {
@@ -345,7 +345,7 @@ function redeemToken()
 
 function insertPoints($user_id, $token)
 {
-    $sql = "SELECT * FROM `tokens` WHERE token = ? AND ( user_id = ? OR user_id = 11 )";
+    $sql = "SELECT * FROM `tokens` WHERE token = ? AND ( user_id = ? OR user_id = 2 )";
     $result = getSingleRecord($sql, 'si', [$token, $user_id]);
     
     if ($result)
@@ -365,6 +365,12 @@ function insertPoints($user_id, $token)
             exit(0);
         }
     }
+    else 
+    {
+        $_SESSION['error_msg'] = "You cannot redeem this token!";
+        header("location: " . BASE_URL . "tokens/redeemToken.php");
+        exit(0);
+    }
 }
 
 function saveFile()
@@ -372,12 +378,12 @@ function saveFile()
     // Get parameters
     $token_data = filter_input_array(INPUT_GET, [
         "save_token" => FILTER_UNSAFE_RAW, 
-        "opportunity_id" => FILTER_UNSAFE_RAW
+        "opportunity" => FILTER_UNSAFE_RAW
     ]);
 
     $token = $token_data['save_token'];
-    $opportunity_id = $token_data['opportunity_id'];
-    $file = "qrCodes/" . $token . ".png";
+    $opportunity_id = $token_data['opportunity'];
+    $file = "../qrCodes/" . $token . ".png";
 
     if (file_exists($file)) 
     {
@@ -390,7 +396,7 @@ function saveFile()
         }
 
         readfile($file);
-
+        header('Location: ' . BASE_URL . 'tokens/tokenList.php?opportunity=' . $opportunity_id);
         exit; // Terminate the script after saving the file
     }
 }

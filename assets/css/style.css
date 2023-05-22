@@ -1,14 +1,63 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway');
-* { font-family: 'Raleway', serif; font-size: 1.0em; }
+* { font-family: 'Raleway', serif; font-size: 20px; }
 span.help-block { font-size: .7em; }
 form label { font-weight: normal; }
 .success_msg { color: '#218823'; }
 .form { border-radius: 5px; border: 1px solid #d1d1d1; padding: 0px 10px 0px 10px; margin-bottom: 50px; }
 #image_display { height: 90px; width: 80px; float: right; margin-right: 10px; }
 
+
 .absoluteCenter {
     text-align: center;
     line-height: 2em;
+}
+@media only screen and (max-width: 600px)  {
+  * {
+    font-size: 30px !important;
+    line-height: 1.5em;
+  }
+
+  .container {
+    min-width: -webkit-fill-available !important;
+  }
+
+  .row {
+    min-width: -webkit-fill-available !important;
+  }
+  .form-control {
+    height: 64px;
+    border-radius: 10px;
+    max-width: -webkit-fill-available !important;
+  }
+
+  .input-group-addon, .input-group-btn {
+    width: 50% !important;
+  }
+
+  .btn {
+    border-radius: 10px;
+    height: 70px;
+    padding: 15px;
+  }
+  
+  input[type="checkbox"] + label {
+    width: 80px !important;
+    height: 40px !important;
+    border-radius: 40px !important;
+  }
+  
+  input[type="checkbox"] + label::before {
+    width: 32px !important;
+    height: 32px !important;
+    top: 4px !important;
+    left: 4px !important;
+  }
+
+  input[type="checkbox"]:checked + label::before {
+    transform: translateX(40px) !important;
+  }
+  
+
 }
 
 .infoBlock {
@@ -32,16 +81,6 @@ table > thead > tr > th:not(:nth-child(2)) {
 .top-padding {
     padding-top: 20px !important;
 }
-@media (max-width: 700px){
-    table > tbody > tr > td {
-        font-size: 40px !important;
-    }
-
-    .font_responsive {
-        font-size: 30px !important;
-    }
-}
-
 #point_selector, #user_selector{
     display: none;
 }

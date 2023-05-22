@@ -8,7 +8,7 @@
   <?php endif; ?>
     <div class="container-fluid">
       <div class="navbar-header">
-        <a style="padding-top: 20px" class="top-padding navbar-brand" href="<?php xecho(BASE_URL . 'excellence/excellenceFilter.php?id=1'); ?>"><?php xecho(APP_NAME); ?></a>        
+        <a style="padding-top: 20px" class="top-padding navbar-brand" class="title" href="<?php xecho(BASE_URL . 'excellence/excellenceFilter.php?id=1'); ?>"><?php xecho(APP_NAME); ?></a>        
       </div>
       <ul class="nav navbar-nav navbar-right">
         <?php if (isset($_SESSION['user'])): ?>
@@ -20,7 +20,7 @@
 
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <img src="<?php xecho(BASE_URL); ?>user/uploads/<?php isset($_SESSION['user']['profile_picture']) ? xecho($_SESSION['user']['profile_picture']) : xecho("default-avatar.png") ?>" class="profilePicture" width="32" height="32">
+            <img src="<?php xecho(BASE_URL); ?>user/uploads/<?php if (isset($_SESSION['user']['profile_picture']) && $_SESSION['user']['profile_picture'] !== "") { xecho($_SESSION['user']['profile_picture']); } else {xecho("default-avatar.png");} ?>" class="profilePicture" width="32" height="32">
               <?php xecho($_SESSION['user']['username'] . ' (' . $_SESSION['user']['role'] . ')'); ?> <span class="caret"></span></a>
 
               <ul class="dropdown-menu">

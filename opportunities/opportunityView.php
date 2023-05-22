@@ -86,10 +86,10 @@
                           <span data-html="true" data-toggle="tooltip" title="Template<hr>GIEK6Z<br>ASD123<br>ASDASD" class="glyphicon">&#xe085;</span>
                       </span>
                       <span class="input-group-addon">
-                        <input type="file" name="fileToUpload" id="fileToUpload">
+                        <input class="form-control" type="file" name="fileToUpload" id="fileToUpload">
                       </span>
                       <span class="input-group-addon">
-                        <input style="border-radius: 4px;" class="form-control btn btn-info" type="submit" class="form-control" aria-label="Import" value="Import">
+                        <input style="border-radius: 4px;" class="btn btn-info" type="submit" aria-label="Import" value="Import">
                       </span>
                     
                     </div>
