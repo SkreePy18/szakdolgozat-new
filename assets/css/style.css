@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway');
-* { font-family: 'Raleway', serif; font-size: 20px; }
+* { font-family: 'Raleway', serif; font-size: 14px; }
 span.help-block { font-size: .7em; }
 form label { font-weight: normal; }
 .success_msg { color: '#218823'; }
