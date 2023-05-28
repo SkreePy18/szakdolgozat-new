@@ -147,7 +147,7 @@ if (isset($_POST["request_reset"]))
 
         $content = "Dear <strong> " . $user['fullname'] . "</strong><br><br>
         You have requested a password reset. In order to change your password, please click on this link:<br><br>
-        " . BASE_URL . "/passwordResetForm.php?password_token=" . $token . "<br><br>Best regards,<br>SkreePy<br><hr>";
+        " . BASE_URL . "passwordResetForm.php?password_token=" . $token . "<br><br>Best regards,<br>" . APP_NAME . "<br><hr>";
 
         sendEmail($user['email'], "Password reset", $content);
 

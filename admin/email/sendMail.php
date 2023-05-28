@@ -16,13 +16,10 @@ function sendEmail($to, $subject, $content) {
     
     $params = array(
         'to'        => $to,
-        'toname'    => "Example User",
         'from'      => $from,
         'fromname'  => APP_NAME,
         'subject'   => $subject,
-        'text'      => $content,
         'html'      => $content,
-        // 'x-smtpapi' => json_encode($js),
       );
     
     $request =  $url.'api/mail.send.json';
