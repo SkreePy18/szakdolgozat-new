@@ -4,7 +4,7 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 // connect to database
 $host = "localhost";
 $user_name = "phpmyadmin";
-$password = "mysql@secure_phpMyAdmin";
+$password = "mysql@secure_phpMyAdmin123!";
 $database = "sprs";
 $conn = new mysqli($host, $user_name, $password, $database);
 

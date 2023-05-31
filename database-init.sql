@@ -12,13 +12,16 @@ CREATE TABLE `users` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `send_email` int(2) NOT NULL DEFAULT 1,
+  `profile_picture` varchar(255),
+  `pending_verification` int(2) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-INSERT INTO `users` (`id`, `role_id`, `username`, `fullname`, `neptuncode`, `email`, `password`, `created_at`, `updated_at`) VALUES
-(1, 1, 'administrator', 'Administrator user', 'NONEPTUN', '', '$2y$10$67V7TOyY9UXXaZbL.Wplye5anOqnnqP.cnS49nKIydzIlaMJqV/iO', '2021-02-01 20:00:00', '2022-11-24 14:31:04'),
-(2, 3, 'TokenHolder', 'Token holder user - privileged permissions by server', 'TH', 'no-email-required', '', '2022-11-24 14:44:32', '2022-11-24 14:44:32');
+INSERT INTO `users` (`id`, `role_id`, `username`, `fullname`, `neptuncode`, `email`, `password`, `created_at`, `updated_at`, `pending_verification`) VALUES
+(1, 1, 'administrator', 'Administrator user', 'NONEPTUN', '', '$2y$10$67V7TOyY9UXXaZbL.Wplye5anOqnnqP.cnS49nKIydzIlaMJqV/iO', '2021-02-01 20:00:00', '2022-11-24 14:31:04', 0),
+(2, 3, 'TokenHolder', 'Token holder user - privileged permissions by server', 'TH', 'no-email-required', '', '2022-11-24 14:44:32', '2022-11-24 14:44:32', 0);
 
 
 CREATE TABLE `roles` (
@@ -147,6 +150,7 @@ INSERT INTO `opportunity_points_type` (`id`, `name`) VALUES (2, 'professional');
 
 
 
+
 CREATE TABLE `tokens` (
   `id` int(11) NOT NULL PRIMARY KEY,
   `token` varchar(255) NOT NULL,
@@ -154,7 +158,7 @@ CREATE TABLE `tokens` (
   `user_id` int(11) NOT NULL,
   `generated_by` int(11) NOT NULL,
   `expiration_date` text NOT NULL,
-  `redeemed` text NOT NULL DEFAULT 'no',
+  `redeemed` VARCHAR(255) NOT NULL DEFAULT 'no',
   `login_required` varchar(255) NOT NULL DEFAULT 'true'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -176,7 +180,7 @@ CREATE TABLE `excellence_points` (
   `id` int(11) NOT NULL PRIMARY KEY,
   `opportunity_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `date` text NOT NULL DEFAULT current_timestamp()
+  `date` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `email` (
@@ -196,7 +200,7 @@ CREATE TABLE `account_verification` (
   `token` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `email` (`id`, `apikey`, `email`) VALUES (1, 'XXXXXXXXXXXXXXXXXXX', 'localhost@localhost.localhost');
+INSERT INTO `email` (`apikey`, `email_from`) VALUES ('XXXXXXXXXXXXXXXXXXX', 'localhost@localhost.localhost');
 
 ALTER TABLE `roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
