@@ -58,7 +58,7 @@
    // define global constants
 	define ('ROOT_PATH', realpath(dirname(__FILE__))); // path to the root folder
 	define ('INCLUDE_PATH', realpath(dirname(__FILE__) . '/includes' )); // Path to includes folder
-	define ('BASE_URL', 'https://giek6z.szakdolgozat.site/'); // the home url of the website
+	define ('BASE_URL', 'localhost'); // the home url of the website
 	define ('APP_NAME', "Social point registration system"); // name of the application
 
   include_once(INCLUDE_PATH . '/logic/database.php');
