@@ -321,7 +321,7 @@ function canViewOpportunityByID($opportunity_id)
     }
 }
 
-function canGenerateCodeByID($opportunity_id, $user_id = NULL, $type = NULL)
+function canGenerateCodeByID($opportunity_id, $user_id = NULL, $type = NULL, $date_update = NULL)
 {
     if (in_array(['permission_name' => 'generate-token'], $_SESSION['userPermissions']))
     {
@@ -349,7 +349,7 @@ function canGenerateCodeByID($opportunity_id, $user_id = NULL, $type = NULL)
             // Check whether the user has a token already generated or achieved the point
             $sql = "SELECT id FROM tokens WHERE user_id = ? AND opportunity_id = ?";
             $tokenResults = getSingleRecord($sql, 'ii', [$user_id, $opportunity_id]);
-            if (!is_null($tokenResults))
+            if ((!is_null($tokenResults)) && ! isset($date_update))
             {
                 $_SESSION['error_msg'] = "Could not " . $type . " token. Cause: A token already exists for this user on this opportunity.";
                 return false;

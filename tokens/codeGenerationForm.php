@@ -4,7 +4,7 @@
 
 <?php  
   // Get all users for selection
-  $sql = "SELECT * FROM users";
+  $sql = "SELECT * FROM users WHERE id <> 2";
   $users = getMultipleRecords($sql); 
   if(!$isEditing) {
     $opportunity_id = filter_input(INPUT_GET, "generate_code", FILTER_UNSAFE_RAW);

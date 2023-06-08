@@ -1,5 +1,6 @@
 <?php
   include_once('error_handler.php');
+  include_once('configurations.php');
 
   /////////////////////////////////////////////////////////////////////////////
   // start session
@@ -9,7 +10,7 @@
 
   // Session timeout duration in seconds
   // Specify value lesser than the PHPs default timeout of 24 minutes
-  $timeout = 1800;
+  $timeout = 600;
   $cookie_domain = '/';
        
   // Check existing timeout variable
@@ -61,6 +62,7 @@
 	define ('APP_NAME', "Social point registration system"); // name of the application
 
   include_once(INCLUDE_PATH . '/logic/database.php');
+  
 
   // xss mitigation functions
   // If your database is already poisoned or you want to deal with XSS at time of output, OWASP recommends creating a custom wrapper function for echo, and using it EVERYWHERE you output user-supplied values:

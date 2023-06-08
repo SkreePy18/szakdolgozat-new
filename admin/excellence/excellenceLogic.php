@@ -99,7 +99,7 @@
     global $conn, $errors, $excellence_id, $name, $isEditing;
 
     // validate data
-    $category_data = filter_input_array(INPUT_POST, [
+    $excellence_data = filter_input_array(INPUT_POST, [
                   "excellence_id" => FILTER_UNSAFE_RAW,
                   "name" => FILTER_UNSAFE_RAW,
                   "show_names" => FILTER_UNSAFE_RAW,
@@ -108,11 +108,11 @@
                  ]);
 
     // receive all input values from the form
-    $excellence_id  = $category_data['excellence_id'];
-    $type           = $category_data['name'];
-    $show_names     = $category_data["show_names"];
-    $choose_users   = $category_data["choose_users"];
-    $choose_points  = $category_data["choose_points"];
+    $excellence_id  = $excellence_data['excellence_id'];
+    $type           = $excellence_data['name'];
+    $show_names     = $excellence_data["show_names"];
+    $choose_users   = $excellence_data["choose_users"];
+    $choose_points  = $excellence_data["choose_points"];
 
     // check permission to update the category data
     if (! canUpdateObjectByID('excellence-list', $excellence_id )) {
@@ -127,13 +127,29 @@
       $point_type = "all";
     }
 
-    print_r($choose_users);
+    if (! isset($choose_points)) 
+    {
+        $point_type = "all";
+    }
+
     if(isset($_POST['students'])) {
       $users = json_encode($_POST['students']);
     } else {
       $users = "all";
+      echo("ALL");
     }
 
+    if (! isset($choose_users)) 
+    {
+        $users = "all";
+    }
+
+
+    if (! isset($show_names)) {
+      $show_names = "false";
+    }
+
+    // $errors = validateExcellence($excellence_data, ["show_names", "choose_users", "choose_points"]);
 
     // if (count($errors) === 0) {
       $sql = "UPDATE excellence_lists SET name=?, show_name=?, points_type=?, users=? WHERE id=?";
@@ -150,7 +166,9 @@
         $_SESSION['error_msg'] = "Could not update excellence list";
       }
     // } else {
-      // $_SESSION['error_msg'] = "Could not update category";
+      // $_SESSION['error_msg'] = "Could not update excellence list";
+      // header("location: " . BASE_URL . "admin/excellence/excellenceForm.php?edit_excellence_list=$excellence_id");
+     
     // }
     $isEditing = true;
   }
@@ -175,11 +193,12 @@
 	  $show_name      = $type_data['show_name'];
 	  $type_of_points     = $type_data['points_type'];
 	  $selected_users          = $type_data['users'];
+
 	
 		$selected_users = ($selected_users != "all") ? json_decode($selected_users) : "all";
 	  $type_of_points = ($type_of_points != "all") ? json_decode($type_of_points) : "all";
 
-  $isEditing = true;
+    $isEditing = true;
   }
 
 

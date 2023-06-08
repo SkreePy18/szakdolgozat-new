@@ -34,9 +34,8 @@ CREATE TABLE `roles` (
 -- Roles
 INSERT INTO `roles` (`id`, `name`, `description`) VALUES (1, 'Admin', 'Has authority of users, roles and permissions plus everything');
 INSERT INTO `roles` (`id`, `name`, `description`) VALUES (2, 'Guest', 'No permissions');
-INSERT INTO `roles` (`id`, `name`, `description`) VALUES (3, 'Student', 'Can register for topic');
-INSERT INTO `roles` (`id`, `name`, `description`) VALUES (4, 'Lecturer', 'Has full authority of own topics');
-INSERT INTO `roles` (`id`, `name`, `description`) VALUES (5, 'Coordinator', 'Has full authority over all topics');
+INSERT INTO `roles` (`id`, `name`, `description`) VALUES (3, 'Student', 'Can complete opportunities');
+INSERT INTO `roles` (`id`, `name`, `description`) VALUES (4, 'Lecturer', 'Has authority of own opportunities');
 
 
 CREATE TABLE `permissions` (
@@ -73,6 +72,7 @@ INSERT INTO `permissions` (`id`, `name`, `description`) VALUES
 (24, 'create-excellence-list', 'can create excellence lists'),
 (25, 'update-excellence-list', 'can edit excellence lists'),
 (26, 'delete-excellence-list', 'can delete excellence lists');
+(27, 'manage-email', 'can manage email settings');
 
 
 
@@ -121,6 +121,7 @@ INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`) VALUES (31, 4, 
 INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`) VALUES (32, 4, 16);
 INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`) VALUES (33, 4, 17);
 INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`) VALUES (34, 4, 18);
+INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`) VALUES (35, 1, 27);
 
 
 
@@ -149,8 +150,6 @@ INSERT INTO `opportunity_points_type` (`id`, `name`) VALUES (1, 'social');
 INSERT INTO `opportunity_points_type` (`id`, `name`) VALUES (2, 'professional');
 
 
-
-
 CREATE TABLE `tokens` (
   `id` int(11) NOT NULL PRIMARY KEY,
   `token` varchar(255) NOT NULL,
@@ -159,6 +158,7 @@ CREATE TABLE `tokens` (
   `generated_by` int(11) NOT NULL,
   `expiration_date` text NOT NULL,
   `redeemed` VARCHAR(255) NOT NULL DEFAULT 'no',
+  `redeemed_by` int(11),
   `login_required` varchar(255) NOT NULL DEFAULT 'true'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -168,7 +168,7 @@ CREATE TABLE `excellence_lists` (
   `id` int(11) NOT NULL PRIMARY KEY,
   `name` varchar(255) NOT NULL,
   `points_type` varchar(255) NOT NULL,
-  `users` longtext DEFAULT '[ [ ] ]',
+  `users` longtext,
   `created_by` int(11) NOT NULL,
   `show_name` varchar(255) NOT NULL DEFAULT 'false'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

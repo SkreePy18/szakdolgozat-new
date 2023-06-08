@@ -43,19 +43,19 @@
 
               <input type="hidden" name="created_by" value="<?php xecho($_SESSION['user']['id']); ?>">
               
-              <div class="form-group <?php xecho(isset($errors['type']) ? 'has-error' : ''); ?>">
+              <div class="form-group <?php xecho(isset($errors['name']) ? 'has-error' : ''); ?>">
                 <label class="control-label">Name of excellence list</label>
                 <?php if ($isEditing === true): ?>
-                 <input type="text" name="name" value="<?php xecho($name); ?>" class="form-control">
+                 <input type="text" name="name" value="<?php xecho($name); ?>" class="form-control" required>
                 <?php else: ?>
-                  <input type="text" name="name" class="form-control">
+                  <input type="text" name="name" class="form-control" required>
                 <?php endif; ?>
-                <?php if (isset($errors['type'])): ?>
-                  <span class="help-block"><?php xecho($errors['type']); ?></span>
+                <?php if (isset($errors['name'])): ?>
+                  <span class="help-block"><?php xecho($errors['name']); ?></span>
                 <?php endif; ?>
               </div>
 
-              <div class="form-group <?php xecho(isset($errors['type']) ? 'has-error' : ''); ?>">
+              <div class="form-group">
               <label class="control-selector">Choose the type of points - Default: all</label><br>
                 <?php if ($isEditing != true || $isEditing === true && isset($type_of_points) && $type_of_points === "all"): ?>
                 <input type="checkbox"name='choose_points'  id='choose_points' onchange="onChange('choose_points', 'point_selector')" class="form-check-input">
@@ -110,9 +110,9 @@
                 <!-- <input type="checkbox" id='choose_users' onchange="onChange('choose_users', 'user_selector')" class="form-check-input"> -->
                 <label class="control-selector">Choose users - default: all</label><br>
                 <?php if ($isEditing != true || $isEditing === true && isset($selected_users) && $selected_users === "all"): ?>
-                <input type="checkbox" id='choose_users' onchange="onChange('choose_users', 'user_selector')" >
+                <input type="checkbox" id='choose_users' name='choose_users' onchange="onChange('choose_users', 'user_selector')" >
                 <?php elseif ($isEditing === true && isset($selected_users) && $selected_users !== "all"): ?>
-                  <input type="checkbox" id='choose_users' onchange="onChange('choose_users', 'user_selector')" value="true" checked>
+                  <input type="checkbox" id='choose_users' name='choose_users' onchange="onChange('choose_users', 'user_selector')" value="true" checked>
                  <?php endif; ?>
                  <label for="choose_users" class="form-check-label"></label>
 

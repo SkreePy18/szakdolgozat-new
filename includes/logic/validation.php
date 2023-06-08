@@ -108,12 +108,12 @@ function validateUser($user, $ignoreFields)
         $sql = 'SELECT * FROM users WHERE username=? OR fullname=? OR neptuncode=? OR email=? LIMIT 1';
         $oldUser = getSingleRecord($sql, 'ssss', [$user['username'], $user['fullname'], $user['neptuncode'], $user['email']]);
 
-        if (isset($_SESSION['user']['id']) && $oldUser['id'] !== $_SESSION['user']['id'])
+        if (isset($_SESSION['user']['id']) && isset($oldUser) && $oldUser['id'] !== $_SESSION['user']['id'])
         {
 
             if (!empty($oldUser['username']) && $oldUser['username'] === $user['username'])
             { // if user exists
-                $errors['username'] = 'Username already exists fml';
+                $errors['username'] = 'Username already exists';
             }
           
             if (!empty($oldUser['neptuncode']) && $oldUser['neptuncode'] === $user['neptuncode'])
@@ -263,7 +263,7 @@ function validateToken($tokenData, $ignoreFields)
         {
             continue;
         }
-        if (empty($opportunity[$key]))
+        if (empty($tokenData[$key]))
         {
             $errors[$key] = 'This field is required';
         }
@@ -272,3 +272,23 @@ function validateToken($tokenData, $ignoreFields)
     return $errors;
 }
 
+function validateExcellence($excellenceData, $ignoreFields)
+{
+    global $conn;
+
+    $errors = [];
+
+    foreach ($excellenceData as $key => $value)
+    {
+        if (in_array($key, $ignoreFields))
+        {
+            continue;
+        }
+        if (empty($excellenceData[$key]))
+        {
+            $errors[$key] = 'This field is required';
+        }
+    }
+
+    return $errors;
+}

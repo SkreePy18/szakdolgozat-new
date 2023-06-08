@@ -44,10 +44,6 @@
   }
 
 
-  
-
-
-
   function getOpportunities(){
     global $conn;
     $sql = "SELECT * FROM opportunities";
@@ -255,7 +251,7 @@
 
     foreach($opportunityIDs as $key => $opportunity_data) {
       $sql = "SELECT * FROM `opportunities` WHERE `id` = ?";
-      $opportunity = getSingleRecord($sql, 'i', [$opportunity_data['id']]);
+      $opportunity = getSingleRecord($sql, 'i', [$opportunity_data['opportunity_id']]);
       if($opportunity) {
         array_push($filtered_opportunities, $opportunity);
       }

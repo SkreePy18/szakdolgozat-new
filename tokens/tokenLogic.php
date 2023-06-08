@@ -1,5 +1,6 @@
 <?php include_once (INCLUDE_PATH . '/logic/validation.php') ?>
 <?php include_once (INCLUDE_PATH . '/logic/qrCode.php') ?>
+<?php include_once('../admin/email/sendMail.php'); ?>
 <?php
 
 $opportunity_id = 0;
@@ -207,6 +208,7 @@ function updateToken()
         $errors = validateToken($token_data, ['update_token', 'token_id', 'owner_id', 'opportunity_id', 'token_type', 'login_required', 'expiration_date', 'user_id']);
         $token_id = $token_data['token_id'];
         $opportunity_id = $token_data['opportunity_id'];
+        $update_date = NULL;
 
         if (empty($errors))
         {
@@ -221,7 +223,15 @@ function updateToken()
                 exit(0);
             }
 
-            if (!canGenerateCodeByID($opportunity_id, $user_id, "update"))
+            $token_exp = "SELECT expiration_date FROM `tokens` WHERE id = ?";
+            $exp_res = getSingleRecord($token_exp, 'i', [$token_id]);
+
+            if ($exp_res !== $expiration_date) 
+            {
+                $update_date = true;
+            }
+
+            if (!canGenerateCodeByID($opportunity_id, $user_id, "update", $update_date))
             {
                 header("location: " . BASE_URL . "tokens/tokenList.php?opportunity=" . $opportunity_id);
                 exit(0);
@@ -329,7 +339,7 @@ function redeemToken()
     }
 
     $sql = "UPDATE tokens SET redeemed='yes', redeemed_by = ? WHERE token = ? AND ( user_id = ? OR user_id = 2 )";
-    $result = modifyRecord($sql, 'sii', [$user_id, $token, $user_id]);
+    $result = modifyRecord($sql, 'isi', [$user_id, $token, $user_id]);
 
     if ($result)
     {
